@@ -1,0 +1,18 @@
+{
+  "settings": {
+    "drawsPerPerson": 2,
+    "maxTimesDrawn": 2
+  },
+  "participants": [
+    { "name": "Thibault", "password": "a-changer-1" },
+    { "name": "Hugues",   "password": "a-changer-2" },
+    { "name": "Océane",   "password": "a-changer-3" },
+    { "name": "Romane",   "password": "a-changer-4" },
+    { "name": "Bérénice", "password": "a-changer-5" },
+    { "name": "Coralie",  "password": "a-changer-6" }
+  ],
+  "admin": { "name": "Admin", "password": "a-changer-admin" },
+  "exclusions": [
+    ["Hugues", "Coralie"]
+  ]
+}
