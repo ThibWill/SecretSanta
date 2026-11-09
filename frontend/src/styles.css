@@ -175,6 +175,8 @@ p {
   font-size: 0.85rem;
   font-weight: 600;
   line-height: 1.1;
+  white-space: nowrap;
+  flex-shrink: 0;
   cursor: pointer;
 }
 
@@ -1108,6 +1110,13 @@ textarea:focus {
 }
 
 /* ---------- Écrans très étroits -------------------------------------------- */
+
+/* Sur téléphone, le sapin de l'en-tête prendrait la place du prénom. */
+@media (max-width: 420px) {
+  .site-title-icon {
+    display: none;
+  }
+}
 
 @media (max-width: 370px) {
   .site-title {

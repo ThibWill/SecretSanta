@@ -13,6 +13,8 @@ import { adminRouter } from './routes/admin.js';
 
 /** Une ligne par requête (méthode, chemin, statut, durée). Jamais de corps. */
 function requestLogger(req, res, next) {
+  // Le healthcheck Docker appelle /api/health toutes les 30 s : inutile de le journaliser.
+  if (req.originalUrl === '/api/health') return next();
   const start = process.hrtime.bigint();
   res.on('finish', () => {
     const ms = Number(process.hrtime.bigint() - start) / 1e6;

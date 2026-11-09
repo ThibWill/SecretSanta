@@ -1,0 +1,15 @@
+services:
+  secret-santa:
+    build: .
+    container_name: secret-santa
+    restart: unless-stopped
+    ports:
+      - "${HOST_PORT:-8080}:3000"
+    environment:
+      JWT_SECRET: ${JWT_SECRET:?Définis JWT_SECRET dans le fichier .env}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+    volumes:
+      - ./data:/data
+      # Le dossier plutôt que le fichier seul : un éditeur qui remplace le fichier
+      # (sed -i, git checkout, vim…) casserait un montage de fichier au redémarrage.
+      - ./backend/config:/app/backend/config:ro

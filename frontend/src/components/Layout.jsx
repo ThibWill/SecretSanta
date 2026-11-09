@@ -21,7 +21,7 @@ export default function Layout() {
       <header className="site-header">
         <div className="header-inner">
           <p className="site-title">
-            <span aria-hidden="true">🎄 </span>Secret Santa
+            <span className="site-title-icon" aria-hidden="true">🎄 </span>Secret Santa
           </p>
           <div className="header-user">
             <span className="user-name">{user.name}</span>

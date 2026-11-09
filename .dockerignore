@@ -1,0 +1,8 @@
+**/node_modules
+frontend/dist
+backend/test
+data
+.git
+.env
+specs
+PROGRESS.md
