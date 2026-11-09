@@ -8,7 +8,7 @@ Specs : `specs/`. Ordre d'implémentation : `specs/00-README.md` §5.
 | 2. Base de données (init / seed / reset) | ✅ |
 | 3. Algorithme de tirage + tests A1–A13 | ✅ |
 | 4. API + `drawService.js` + tests d'intégration | ✅ |
-| 5. Frontend (y compris `frontend/package.json`) | ⏳ session C |
+| 5. Frontend (y compris `frontend/package.json`) | ✅ |
 | 6. Docker | ⏳ session D |
 | 7. Recette | ⏳ session D |
 | 8. README | ⏳ session D |
@@ -30,3 +30,13 @@ Specs : `specs/`. Ordre d'implémentation : `specs/00-README.md` §5.
 - Fallback SPA : `app.get('/{*splat}')` (syntaxe Express 5), actif seulement si `STATIC_DIR` est défini. Vérifié à la main avec un faux `index.html`.
 - Helpers de test : `createTestApp()`, `loginAs(app, name)`, `userId(db, name)` dans `test/helpers.js`.
 - Pour la session C : le proxy Vite doit rediriger `/api` vers `http://localhost:3000` (lancer le back avec `npm run dev` dans `backend/`).
+
+## Notes de la session C (frontend)
+
+- Versions : React 19, React Router 7 (paquet `react-router`, pas `react-router-dom` ; v8 écartée car trop récente), Vite 8. Vite 8 compile sans souci sur ce WSL (glibc 2.31).
+- Polices `@fontsource` : seulement le jeu latin (`latin-400.css`…), donc pas de cyrillique dans le build.
+- Routeur créé avec `createBrowserRouter` (routeur « data ») pour pouvoir utiliser `useBlocker` : avertissement aussi lors d'une navigation interne quand la lettre n'est pas enregistrée, en plus de `beforeunload`.
+- Fichiers en plus de l'arborescence de la spec : `useApi.js` (chargement/erreur/rechargement), `dates.js`, `components/Decorations.jsx` (neige, guirlande, sapin, nœud, confettis), `components/PageStatus.jsx` (chargement, erreur, titre en ruban).
+- Tester en local : `cd frontend && npm run build`, puis `cd backend && STATIC_DIR=../frontend/dist npm run dev`, et ouvrir http://localhost:3000 (mode mobile du navigateur, 375 px). Ou `npm run dev` dans les deux dossiers et ouvrir http://localhost:5173.
+- Vérification : un script Playwright jetable (hors dépôt, Chromium headless à 375 et 360 px) a passé 37 contrôles. Parcours connexion, lettre, tirage et admin ; « Annuler » ; double clic → un seul `POST /api/draw` ; pas de défilement horizontal ; HTML des lettres non interprété ; redirections selon le rôle ; mouvement réduit ; aucune erreur console. Captures relues à l'œil. Les émojis n'ont pas pu être vus (pas de police émoji dans Chromium headless) : à contrôler pendant la recette.
+- Réseau WSL lent (environ 50 Ko/s) : réglé en désactivant RSC et LSO sur la carte `vEthernet (WSL (Hyper-V firewall))` côté Windows. Réglage peut-être non permanent : si ça redevient lent, recommencer ou passer en `networkingMode=mirrored` (`.wslconfig`).

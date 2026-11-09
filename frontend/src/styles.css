@@ -1,0 +1,1141 @@
+/* ==========================================================================
+   Secret Santa — feuille de style globale
+   Noël de famille, chaleureux et un peu rétro. Animations : transform et
+   opacity uniquement, coupées avec prefers-reduced-motion.
+   ========================================================================== */
+
+:root {
+  --vert-sapin: #0f3d2e;
+  --vert-houx: #1f6b4a;
+  --rouge-noel: #b3202a;
+  --rouge-fonce: #7a1420;
+  --or: #e0b04a;
+  --creme: #fbf3e4;
+  --brun-chaud: #3b2a20;
+  --neige: #ffffff;
+
+  --or-fonce: #a87d24;
+  --brun-doux: #6b5544;
+  --vert-succes: #17603f;
+  --papier-ligne: rgba(59, 42, 32, 0.12);
+
+  --font-titre: 'Mountains of Christmas', 'Georgia', serif;
+  --font-texte: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-lettre: 'Caveat', 'Comic Sans MS', cursive;
+
+  --radius: 16px;
+  --ombre-chaude: 0 6px 18px rgba(20, 8, 2, 0.35), 0 2px 4px rgba(20, 8, 2, 0.25);
+  --nav-height: 64px;
+  --content-max: 480px;
+
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  font-family: var(--font-texte);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--brun-chaud);
+  background-color: var(--vert-sapin);
+  /* Motif d'étoiles discret + halo plus clair au centre. */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='%23ffffff' fill-opacity='0.07'%3E%3Cpath d='M20 12l2 6 6 2-6 2-2 6-2-6-6-2 6-2z'/%3E%3Cpath d='M84 70l1.5 4.5 4.5 1.5-4.5 1.5-1.5 4.5-1.5-4.5-4.5-1.5 4.5-1.5z'/%3E%3Ccircle cx='70' cy='22' r='1.6'/%3E%3Ccircle cx='30' cy='88' r='1.4'/%3E%3Ccircle cx='104' cy='108' r='1.2'/%3E%3Ccircle cx='8' cy='54' r='1'/%3E%3C/g%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 50% 35%, var(--vert-houx) 0%, var(--vert-sapin) 70%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--or);
+  outline-offset: 2px;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+/* ---------- Neige ---------------------------------------------------------- */
+
+.snow {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.flake {
+  position: absolute;
+  top: -20px;
+  border-radius: 50%;
+  background: var(--neige);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+  animation-name: snowfall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+@keyframes snowfall {
+  from {
+    transform: translate3d(0, -20px, 0);
+  }
+  50% {
+    transform: translate3d(var(--drift), 55vh, 0);
+  }
+  to {
+    transform: translate3d(0, 110vh, 0);
+  }
+}
+
+/* ---------- Mise en page --------------------------------------------------- */
+
+.layout {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.site-header {
+  position: relative;
+  background: linear-gradient(180deg, var(--rouge-noel), #9c1a24);
+  color: var(--neige);
+  border-bottom: 2px solid var(--or);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  padding-top: env(safe-area-inset-top);
+}
+
+.header-inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.site-title {
+  font-family: var(--font-titre);
+  font-weight: 700;
+  font-size: 1.75rem;
+  line-height: 1.1;
+  white-space: nowrap;
+  text-shadow: 0 2px 0 var(--rouge-fonce);
+}
+
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.user-name {
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-logout {
+  min-height: 44px;
+  padding: 6px 10px;
+  border: 1.5px solid rgba(251, 243, 228, 0.7);
+  border-radius: 999px;
+  background: rgba(122, 20, 32, 0.45);
+  color: var(--creme);
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.1;
+  cursor: pointer;
+}
+
+.btn-logout:active {
+  background: var(--rouge-fonce);
+}
+
+.garland {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 100%;
+  height: 34px;
+  margin-top: -4px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.bulb {
+  animation: twinkle 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.45;
+  }
+}
+
+.content {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 40px 16px calc(var(--nav-height) + 28px + env(safe-area-inset-bottom));
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ---------- Barre de navigation basse -------------------------------------- */
+
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  background: var(--vert-houx);
+  border-top: 2px solid var(--or);
+  box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.35);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.bottom-nav ul {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+.bottom-nav li {
+  flex: 1;
+}
+
+.nav-link {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: var(--nav-height);
+  padding: 6px 4px;
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.nav-icon {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.nav-link.active {
+  color: var(--neige);
+  font-weight: 700;
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  bottom: 5px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--or);
+}
+
+.nav-link:focus-visible {
+  outline-offset: -4px;
+}
+
+/* ---------- Titres en ruban ------------------------------------------------ */
+
+.ribbon {
+  position: relative;
+  align-self: center;
+  max-width: 100%;
+  margin: 0 18px;
+  padding: 6px 22px 8px;
+  background: linear-gradient(180deg, var(--rouge-noel), #9c1a24);
+  color: var(--neige);
+  font-family: var(--font-titre);
+  font-weight: 700;
+  font-size: 1.9rem;
+  line-height: 1.15;
+  text-align: center;
+  border-top: 2px solid var(--or);
+  border-bottom: 2px solid var(--or);
+  box-shadow: 0 4px 0 var(--rouge-fonce), var(--ombre-chaude);
+  text-shadow: 0 2px 0 var(--rouge-fonce);
+}
+
+.ribbon::before,
+.ribbon::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  width: 22px;
+  height: 100%;
+  background: var(--rouge-fonce);
+  z-index: -1;
+}
+
+.ribbon::before {
+  left: -16px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 35% 50%);
+}
+
+.ribbon::after {
+  right: -16px;
+  clip-path: polygon(0 0, 100% 0, 65% 50%, 100% 100%, 0 100%);
+}
+
+/* ---------- Cartes --------------------------------------------------------- */
+
+.card {
+  position: relative;
+  background: var(--creme);
+  color: var(--brun-chaud);
+  border: 1.5px solid var(--or);
+  border-radius: var(--radius);
+  box-shadow: var(--ombre-chaude);
+  padding: 20px;
+}
+
+.status-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.status-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.spin {
+  display: inline-block;
+  animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.boot {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 30vh 16px 0;
+}
+
+.error-text {
+  color: var(--rouge-noel);
+  font-weight: 700;
+}
+
+.success-text {
+  color: var(--vert-succes);
+  font-weight: 700;
+}
+
+.help-text {
+  color: var(--brun-doux);
+}
+
+/* ---------- Boutons -------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 10px 22px;
+  border: 0;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: transform 0.08s ease;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, #c92a35, var(--rouge-noel) 55%, #9c1a24);
+  color: var(--creme);
+  box-shadow: 0 5px 0 var(--rouge-fonce), 0 8px 14px rgba(0, 0, 0, 0.25);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 var(--rouge-fonce), 0 3px 6px rgba(0, 0, 0, 0.25);
+}
+
+.btn-secondary {
+  background: var(--creme);
+  color: var(--vert-sapin);
+  border: 2px solid var(--vert-houx);
+  box-shadow: 0 4px 0 var(--vert-houx);
+}
+
+.btn-secondary:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 var(--vert-houx);
+}
+
+.btn-danger {
+  background: #a3121c;
+  color: var(--neige);
+  border: 2px solid #7a0c14;
+}
+
+.btn-danger:active:not(:disabled) {
+  background: #7a0c14;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ---------- Formulaires ---------------------------------------------------- */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-weight: 700;
+}
+
+select,
+input[type='password'],
+textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 12px;
+  font-size: 16px;
+  border: 2px solid #c9b48a;
+  border-radius: 10px;
+  background: #fffdf8;
+  color: var(--brun-chaud);
+}
+
+select:focus,
+input:focus,
+textarea:focus {
+  border-color: var(--or-fonce);
+}
+
+.checkbox-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+}
+
+.checkbox-field input {
+  width: 24px;
+  height: 24px;
+  accent-color: #a3121c;
+  flex-shrink: 0;
+}
+
+/* ---------- Connexion ------------------------------------------------------ */
+
+.login-page {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: calc(24px + env(safe-area-inset-top)) 16px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.tree {
+  width: 170px;
+  height: auto;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+}
+
+.tree-star {
+  transform-origin: 100px 28px;
+  animation: star-glow 2.6s ease-in-out infinite alternate;
+}
+
+@keyframes star-glow {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.12);
+  }
+}
+
+.ornament {
+  animation: twinkle 1.8s ease-in-out infinite alternate;
+}
+
+.login-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-width: 2px;
+  outline: 1.5px dashed var(--or);
+  outline-offset: -9px;
+  padding: 24px 22px;
+}
+
+.login-title {
+  font-family: var(--font-titre);
+  font-weight: 700;
+  font-size: 2.6rem;
+  line-height: 1;
+  text-align: center;
+  color: var(--rouge-noel);
+}
+
+.login-subtitle {
+  text-align: center;
+  color: var(--brun-doux);
+  font-weight: 600;
+  margin-top: -10px;
+}
+
+/* ---------- Tirage : avant ------------------------------------------------- */
+
+.draw-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.warning {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f6e2b8;
+  font-weight: 700;
+}
+
+/* Le gros bouton paquet cadeau. */
+.gift-button {
+  position: relative;
+  align-self: center;
+  width: min(290px, 100%);
+  margin-top: 26px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gift-button .bow {
+  position: absolute;
+  left: 50%;
+  top: -44px;
+  width: 120px;
+  transform: translateX(-50%);
+  z-index: 2;
+  filter: drop-shadow(0 3px 2px rgba(0, 0, 0, 0.3));
+}
+
+.gift-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 170px;
+  border-radius: 14px;
+  background:
+    linear-gradient(90deg, transparent calc(50% - 16px), var(--or) calc(50% - 16px), #f0c766 50%, var(--or) calc(50% + 16px), transparent calc(50% + 16px)),
+    linear-gradient(180deg, transparent calc(50% - 16px), var(--or) calc(50% - 16px), #f0c766 50%, var(--or) calc(50% + 16px), transparent calc(50% + 16px)),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.07) 0 10px, transparent 10px 20px),
+    linear-gradient(180deg, #c92a35, var(--rouge-noel) 60%, #9c1a24);
+  border: 2px solid var(--rouge-fonce);
+  box-shadow: 0 8px 0 var(--rouge-fonce), 0 14px 24px rgba(0, 0, 0, 0.4);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.gift-label {
+  position: relative;
+  z-index: 1;
+  padding: 10px 18px;
+  border-radius: 10px;
+  background: var(--creme);
+  color: var(--rouge-fonce);
+  border: 2px solid var(--or-fonce);
+  font-size: 1.35rem;
+  font-weight: 700;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+}
+
+.gift-button:hover .gift-box {
+  transform: translateY(-2px);
+}
+
+.gift-button:active:not(:disabled) .gift-box {
+  transform: translateY(6px);
+  box-shadow: 0 2px 0 var(--rouge-fonce), 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.gift-button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.gift-button:focus-visible {
+  outline-offset: 8px;
+  border-radius: 14px;
+}
+
+/* ---------- Tirage : étiquettes cadeau ------------------------------------- */
+
+.tags {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  padding-top: 14px;
+}
+
+.gift-tag {
+  position: relative;
+  padding: 46px 20px 22px;
+  background:
+    linear-gradient(180deg, rgba(224, 176, 74, 0.18), transparent 90px),
+    var(--creme);
+  color: var(--brun-chaud);
+  /* Étiquette : coins supérieurs coupés. */
+  clip-path: polygon(44px 0, calc(100% - 44px) 0, 100% 44px, 100% 100%, 0 100%, 0 44px);
+  border-radius: 0 0 var(--radius) var(--radius);
+  filter: drop-shadow(0 6px 10px rgba(20, 8, 2, 0.4));
+  text-align: center;
+}
+
+/* Filet doré qui suit la forme de l'étiquette. */
+.gift-tag::before {
+  content: '';
+  position: absolute;
+  inset: 7px;
+  border: 1.5px dashed var(--or-fonce);
+  border-radius: 0 0 10px 10px;
+  clip-path: polygon(40px 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 0 100%, 0 40px);
+  pointer-events: none;
+}
+
+.tag-hole {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: var(--vert-sapin);
+  box-shadow: 0 0 0 4px var(--or), inset 0 2px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Ficelle qui sort du trou. */
+.tag-hole::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -18px;
+  width: 3px;
+  height: 26px;
+  margin-left: -1.5px;
+  background: repeating-linear-gradient(180deg, #c62f3a 0 4px, var(--creme) 4px 8px);
+  border-radius: 2px;
+  transform: rotate(-18deg);
+  transform-origin: bottom center;
+}
+
+.tag-to {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.85rem;
+  color: var(--brun-doux);
+}
+
+.tag-name {
+  font-family: var(--font-titre);
+  font-weight: 700;
+  font-size: 3rem;
+  line-height: 1.05;
+  color: var(--rouge-noel);
+  overflow-wrap: anywhere;
+}
+
+.tag-letter {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 2px dotted var(--or-fonce);
+  text-align: left;
+}
+
+.tag-no-letter {
+  margin-top: 14px;
+  color: var(--brun-doux);
+}
+
+/* Révélation après le tirage. */
+.reveal .gift-tag {
+  animation: tag-in 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
+  animation-delay: var(--delay, 0s);
+}
+
+@keyframes tag-in {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.85) rotate(-3deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.gift-opening {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  width: 150px;
+  height: 130px;
+  margin-left: -75px;
+  z-index: 3;
+  pointer-events: none;
+  animation: opening-out 0.5s ease-in 2.6s both;
+}
+
+.opening-body {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 0;
+  height: 86px;
+  border-radius: 0 0 10px 10px;
+  background:
+    linear-gradient(90deg, transparent calc(50% - 10px), var(--or) calc(50% - 10px), var(--or) calc(50% + 10px), transparent calc(50% + 10px)),
+    linear-gradient(180deg, var(--rouge-noel), #9c1a24);
+  border: 2px solid var(--rouge-fonce);
+}
+
+.opening-lid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 18px;
+  height: 30px;
+  border-radius: 6px;
+  background:
+    linear-gradient(90deg, transparent calc(50% - 11px), var(--or) calc(50% - 11px), var(--or) calc(50% + 11px), transparent calc(50% + 11px)),
+    linear-gradient(180deg, #c92a35, var(--rouge-noel));
+  border: 2px solid var(--rouge-fonce);
+  z-index: 1;
+  animation: lid-open 0.7s ease-out 0.15s both;
+}
+
+.bow-small {
+  position: absolute;
+  left: 50%;
+  top: -30px;
+  width: 70px;
+  transform: translateX(-50%);
+}
+
+@keyframes lid-open {
+  from {
+    transform: none;
+  }
+  to {
+    transform: translate(46px, -70px) rotate(32deg);
+    opacity: 0;
+  }
+}
+
+@keyframes opening-out {
+  to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+.confetti {
+  position: absolute;
+  left: 50%;
+  top: 40px;
+}
+
+.confetto {
+  position: absolute;
+  width: 7px;
+  height: 11px;
+  border-radius: 2px;
+  opacity: 0;
+  animation: confetti-burst 1.8s cubic-bezier(0.15, 0.6, 0.4, 1) both;
+}
+
+.confetto.wide {
+  width: 11px;
+  height: 6px;
+}
+
+@keyframes confetti-burst {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0);
+  }
+  35% {
+    opacity: 1;
+    transform: translate(var(--x), calc(var(--y) * -0.5)) rotate(calc(var(--r) * 0.4));
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(var(--x) * 1.3), var(--y)) rotate(var(--r));
+  }
+}
+
+/* ---------- Lettres -------------------------------------------------------- */
+
+.letters {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.letter {
+  position: relative;
+  padding: 20px 20px 22px;
+  border: 1.5px solid var(--or);
+  border-radius: var(--radius);
+  box-shadow: var(--ombre-chaude);
+  color: var(--brun-chaud);
+  /* Papier ligné, avec une marge rouge à gauche. */
+  background:
+    linear-gradient(90deg, transparent 26px, rgba(179, 32, 42, 0.25) 26px, rgba(179, 32, 42, 0.25) 28px, transparent 28px),
+    repeating-linear-gradient(180deg, transparent 0 31px, var(--papier-ligne) 31px 32px),
+    radial-gradient(ellipse at 20% 0%, #fffaf0, var(--creme) 60%, #f3e6cc);
+  padding-left: 40px;
+}
+
+.letter-author {
+  display: block;
+  padding-right: 52px;
+  font-family: var(--font-titre);
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 1.15;
+  color: var(--rouge-noel);
+  overflow-wrap: anywhere;
+}
+
+.letter-me {
+  font-family: var(--font-texte);
+  font-size: 1rem;
+  color: var(--brun-doux);
+}
+
+.letter-date {
+  font-size: 0.9rem;
+  color: var(--brun-doux);
+}
+
+.letter-text {
+  margin-top: 8px;
+  font-family: var(--font-lettre);
+  font-weight: 500;
+  font-size: 1.4rem;
+  line-height: 32px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.letter-edit {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 6px;
+  color: var(--vert-succes);
+  font-weight: 700;
+}
+
+.wax-seal {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #d8434d, var(--rouge-noel) 45%, var(--rouge-fonce));
+  color: #f0c766;
+  font-size: 1.3rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35), inset 0 0 0 3px rgba(122, 20, 32, 0.6);
+  transform: rotate(-12deg);
+}
+
+.letter-empty {
+  background: #e9e1d2;
+  border-style: dashed;
+  border-color: #b9a888;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+  padding-left: 20px;
+}
+
+.letter-empty .letter-author {
+  color: #5e4d40;
+  padding-right: 0;
+}
+
+.letter-empty-text {
+  margin-top: 4px;
+  color: #5e4d40;
+  font-style: italic;
+}
+
+/* Formulaire de lettre. */
+.letter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.letter-input {
+  min-height: 330px;
+  resize: vertical;
+  font-family: var(--font-lettre);
+  font-weight: 500;
+  font-size: 1.4rem;
+  line-height: 32px;
+  background: rgba(255, 253, 248, 0.85);
+}
+
+.counter {
+  align-self: flex-end;
+  font-size: 0.9rem;
+  color: var(--brun-doux);
+  font-variant-numeric: tabular-nums;
+}
+
+.counter-full {
+  color: var(--rouge-noel);
+  font-weight: 700;
+}
+
+.save-status {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 1.5em;
+}
+
+/* ---------- Administration ------------------------------------------------- */
+
+.admin-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-summary {
+  font-size: 1.15rem;
+  text-align: center;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 10px 6px;
+  border-bottom: 1px solid rgba(168, 125, 36, 0.4);
+  text-align: center;
+}
+
+.admin-table thead th {
+  font-size: 0.85rem;
+  color: var(--brun-doux);
+  line-height: 1.2;
+}
+
+.admin-table th[scope='row'],
+.admin-table thead th:first-child {
+  text-align: left;
+}
+
+.admin-table td {
+  font-size: 1.2rem;
+}
+
+/* Sobre, sans décoration, pour éviter toute confusion. */
+.danger-zone {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px;
+  background: #fff;
+  color: #2a2a2a;
+  border: 2px solid #a3121c;
+  border-radius: 12px;
+}
+
+.danger-zone h2 {
+  font-size: 1.1rem;
+  color: #a3121c;
+}
+
+/* ---------- Boîte de confirmation ------------------------------------------ */
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(8, 24, 18, 0.72);
+  animation: fade-in 0.15s ease-out;
+}
+
+.dialog {
+  width: min(400px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: center;
+  animation: pop-in 0.2s ease-out;
+}
+
+.dialog-title {
+  font-family: var(--font-titre);
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 1.1;
+  color: var(--rouge-noel);
+}
+
+.dialog-danger {
+  background: #fff;
+  border-color: #a3121c;
+}
+
+.dialog-danger .dialog-title {
+  font-family: var(--font-texte);
+  font-size: 1.3rem;
+  color: #a3121c;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.dialog-actions .btn {
+  flex: 1;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+}
+
+/* ---------- Écrans très étroits -------------------------------------------- */
+
+@media (max-width: 370px) {
+  .site-title {
+    font-size: 1.45rem;
+  }
+  .btn-logout {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+  }
+  .ribbon {
+    font-size: 1.6rem;
+  }
+  .tag-name {
+    font-size: 2.5rem;
+  }
+}
+
+/* ---------- Mouvement réduit ----------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .snow,
+  .gift-opening {
+    display: none;
+  }
+}
